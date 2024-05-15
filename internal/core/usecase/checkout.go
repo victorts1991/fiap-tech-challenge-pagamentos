@@ -15,9 +15,8 @@ type RealizarCheckout interface {
 }
 
 type realizaCheckout struct {
-	pagamentoRepo       repository.PagamentoRepo
-	atualizaPagamentoUC AtualizaPagamento
-	pedidoClient        client.Pedido
+	pagamentoRepo repository.PagamentoRepo
+	pedidoClient  client.Pedido
 }
 
 func (uc *realizaCheckout) Checkout(ctx context.Context, pagamento *domain.Pagamento) error {
@@ -59,10 +58,9 @@ func (uc *realizaCheckout) atualizaPedido(ctx context.Context, pedidoId string, 
 	return nil
 }
 
-func NewRealizaCheckout(pagamentoRepo repository.PagamentoRepo, atualizaPagamentoUC AtualizaPagamento, pedidoClient client.Pedido) RealizarCheckout {
+func NewRealizaCheckout(pagamentoRepo repository.PagamentoRepo, pedidoClient client.Pedido) RealizarCheckout {
 	return &realizaCheckout{
-		pagamentoRepo:       pagamentoRepo,
-		atualizaPagamentoUC: atualizaPagamentoUC,
-		pedidoClient:        pedidoClient,
+		pagamentoRepo: pagamentoRepo,
+		pedidoClient:  pedidoClient,
 	}
 }

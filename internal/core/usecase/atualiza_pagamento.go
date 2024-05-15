@@ -3,6 +3,8 @@ package usecase
 import (
 	"context"
 	"fiap-tech-challenge-pagamentos/internal/adapters/repository"
+	"fmt"
+	"github.com/rhuandantas/fiap-tech-challenge-commons/pkg/errors"
 )
 
 type AtualizaPagamento interface {
@@ -14,11 +16,20 @@ type atualizaPagamentoUC struct {
 }
 
 func (uc *atualizaPagamentoUC) Atualiza(ctx context.Context, status, pedidoID string) error {
-	err := uc.pagamentoRepoRepo.AtualizaStatus(ctx, status, pedidoID)
-
+	pagamento, err := uc.pagamentoRepoRepo.PesquisaPorPedidoID(ctx, pedidoID)
 	if err != nil {
 		return err
 	}
+
+	if pagamento == nil {
+		return errors.NotFound.New(fmt.Sprintf("pagamento não encontrado para pedido %s", pedidoID))
+	}
+
+	err = uc.pagamentoRepoRepo.AtualizaStatus(ctx, status, pedidoID)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
