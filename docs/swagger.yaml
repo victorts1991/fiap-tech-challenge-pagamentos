@@ -1,0 +1,126 @@
+basePath: /
+definitions:
+  commons.MessageResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  domain.Pagamento:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      pedido_id:
+        type: string
+      status:
+        type: string
+      tipo:
+        type: string
+      update:
+        type: string
+      valor:
+        type: number
+    required:
+    - pedido_id
+    - tipo
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: This is a documentation of all endpoints in the API.
+  title: Tech Challenge API
+  version: 3.0.0
+paths:
+  /liveness:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of http.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            type: string
+      summary: Show the status of http.
+      tags:
+      - Health
+  /pagamento/{pedido_id}:
+    get:
+      consumes:
+      - '*/*'
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id do pedido
+        in: path
+        name: pedido_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Pagamento'
+      summary: pega um pagamento por pedido id
+      tags:
+      - Pagamento
+  /pagamento/checkout/{pedidoId}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: id do pedido a ser feito o checkout
+        in: path
+        name: pedidoId
+        required: true
+        type: integer
+      - description: 'status permitido: aprovado | recusado'
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Pagamento'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/commons.MessageResponse'
+      summary: checkout de um pagamento
+      tags:
+      - Pagamento
+  /readiness:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of http.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Show the status of http.
+      tags:
+      - Health
+produces:
+- application/json
+schemes:
+- http
+securityDefinitions:
+  JWT:
+    in: header
+    name: token
+    type: apiKey
+swagger: "2.0"

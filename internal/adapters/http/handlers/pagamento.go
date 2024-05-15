@@ -75,8 +75,8 @@ func validatePagamento(d *domain.Pagamento) error {
 }
 
 // checkout godoc
-// @Summary checkout do pedido
-// @Tags Pedido
+// @Summary checkout de um pagamento
+// @Tags Pagamento
 // @Accept json
 // @Success 200 {object} commons.MessageResponse
 // @Param        pedidoId   path      integer  true  "id do pedido a ser feito o checkout"
