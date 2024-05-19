@@ -15,8 +15,9 @@ type RealizarCheckout interface {
 }
 
 type realizaCheckout struct {
-	pagamentoRepo repository.PagamentoRepo
-	pedidoClient  client.Pedido
+	pagamentoRepo  repository.PagamentoRepo
+	pedidoClient   client.Pedido
+	producaoClient client.Producao
 }
 
 func (uc *realizaCheckout) Checkout(ctx context.Context, pagamento *domain.Pagamento) error {
@@ -33,6 +34,11 @@ func (uc *realizaCheckout) Checkout(ctx context.Context, pagamento *domain.Pagam
 	if err != nil {
 		return err
 	}
+
+	err = uc.producaoClient.AdicionaFila(ctx, map[string]string{
+		"pedido_id": pagamento.PedidoId,
+		"status":    "recebido",
+	})
 
 	err = uc.pagamentoRepo.Insere(ctx, pagamento)
 	if err != nil {
@@ -58,9 +64,10 @@ func (uc *realizaCheckout) atualizaPedido(ctx context.Context, pedidoId string, 
 	return nil
 }
 
-func NewRealizaCheckout(pagamentoRepo repository.PagamentoRepo, pedidoClient client.Pedido) RealizarCheckout {
+func NewRealizaCheckout(pagamentoRepo repository.PagamentoRepo, pedidoClient client.Pedido, producaoClient client.Producao) RealizarCheckout {
 	return &realizaCheckout{
-		pagamentoRepo: pagamentoRepo,
-		pedidoClient:  pedidoClient,
+		pagamentoRepo:  pagamentoRepo,
+		pedidoClient:   pedidoClient,
+		producaoClient: producaoClient,
 	}
 }

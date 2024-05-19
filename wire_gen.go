@@ -27,7 +27,8 @@ func InitializeWebServer() (*http.Server, error) {
 	validator := util.NewCustomValidator()
 	token := auth.NewJwtToken()
 	pedido := client.NewPedido()
-	realizarCheckout := usecase.NewRealizaCheckout(pagamentoRepo, pedido)
+	producao := client.NewProducao()
+	realizarCheckout := usecase.NewRealizaCheckout(pagamentoRepo, pedido, producao)
 	pagamento := handlers.NewPagamento(pesquisaPagamento, validator, token, realizarCheckout)
 	server := http.NewAPIServer(healthCheck, pagamento)
 	return server, nil
