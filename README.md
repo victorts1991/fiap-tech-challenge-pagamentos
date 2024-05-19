@@ -33,9 +33,4 @@ SONAR_TOKEN=Valor copiado no passo 18
 20. Após isso qualquer commit neste repositório que for para a branch "main", irá subir uma imagem desta api no ECR da AWS;
 
 
-```bash
-go install go.uber.org/mock/mockgen@latest
-go get github.com/onsi/ginkgo/v2@v2.14.0
-go install github.com/onsi/ginkgo/v2/ginkgo
-go install github.com/swaggo/swag/cmd/swag@latest
-```
+
