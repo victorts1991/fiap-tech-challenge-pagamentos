@@ -39,6 +39,9 @@ func (uc *realizaCheckout) Checkout(ctx context.Context, pagamento *domain.Pagam
 		"pedido_id": pagamento.PedidoId,
 		"status":    "recebido",
 	})
+	if err != nil {
+		return err
+	}
 
 	err = uc.pagamentoRepo.Insere(ctx, pagamento)
 	if err != nil {
