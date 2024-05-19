@@ -22,7 +22,6 @@ func InitializeWebServer() (*http.Server, error) {
 		auth.NewJwtToken,
 		repository.NewPagamentoRepo,
 		usecase.NewRealizaCheckout,
-		usecase.NewAtualizaPagamento,
 		usecase.NewPesquisaPagamento,
 		handlers.NewHealthCheck,
 		handlers.NewPagamento,

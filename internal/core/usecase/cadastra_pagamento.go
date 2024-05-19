@@ -7,7 +7,7 @@ import (
 )
 
 type CadastrarPagamento interface {
-	Cadastra(ctx context.Context, fila *domain.Pagamento) error
+	Cadastra(ctx context.Context, pagamento *domain.Pagamento) error
 }
 
 type cadastraFila struct {

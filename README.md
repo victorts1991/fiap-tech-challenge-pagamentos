@@ -33,3 +33,4 @@ SONAR_TOKEN=Valor copiado no passo 18
 20. Após isso qualquer commit neste repositório que for para a branch "main", irá subir uma imagem desta api no ECR da AWS;
 
 
+
