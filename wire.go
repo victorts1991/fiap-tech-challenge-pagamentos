@@ -26,6 +26,7 @@ func InitializeWebServer() (*http.Server, error) {
 		handlers.NewHealthCheck,
 		handlers.NewPagamento,
 		client.NewPedido,
+		client.NewProducao,
 		http.NewAPIServer)
 	return &http.Server{}, nil
 }
