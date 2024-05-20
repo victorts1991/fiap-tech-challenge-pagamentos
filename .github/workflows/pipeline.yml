@@ -12,7 +12,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
       - name: Unit Tests      
-        run: go clean -testcache && go test -v ./... -v -coverprofile=coverage.out
+        run: go clean -testcache && go test -v ./... -v -coverprofile=internal/core/usecase/coverage.out
       - uses: actions/upload-artifact@v4
         with:
           name: coverage.out
