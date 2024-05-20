@@ -38,8 +38,7 @@ jobs:
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.go.coverage.reportPaths=../../../coverage.out
             -Dsonar.test.exclusions=./*_test.go
-            -Dsonar.sources=.
-            -Dsonar.tests=.
+            -Dsonar.exclusions=./*_test.go
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
