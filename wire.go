@@ -18,6 +18,8 @@ import (
 
 func InitializeWebServer() (*http.Server, error) {
 	wire.Build(db.NewMySQLConnector,
+		client.NewPedido,
+		client.NewProducao,
 		util.NewCustomValidator,
 		auth.NewJwtToken,
 		repository.NewPagamentoRepo,
@@ -25,8 +27,6 @@ func InitializeWebServer() (*http.Server, error) {
 		usecase.NewPesquisaPagamento,
 		handlers.NewHealthCheck,
 		handlers.NewPagamento,
-		client.NewPedido,
-		client.NewProducao,
 		http.NewAPIServer)
 	return &http.Server{}, nil
 }
