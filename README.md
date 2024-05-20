@@ -35,4 +35,3 @@ SONAR_TOKEN=Valor copiado no passo 18
 ### Evidência da cobertura dos testes unitários
 ![coverage](coverage.png)
 
-
