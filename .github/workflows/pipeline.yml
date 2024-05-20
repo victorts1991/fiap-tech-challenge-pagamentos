@@ -12,11 +12,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
       - name: Unit Tests      
-        run: go clean -testcache && go test -v ./... -v -coverprofile=internal/core/usecase/coverage.out
+        run: go clean -testcache && go test -v ./... -v -coverprofile=coverage.out
       - uses: actions/upload-artifact@v4
         with:
           name: coverage.out
-          path: internal/core/usecase/coverage.out
+          path: coverage.out
 
   code-analisys:   
     needs: unit-test  
@@ -36,7 +36,7 @@ jobs:
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-            -Dsonar.go.coverage.reportPaths=coverage.out
+            -Dsonar.go.coverage.reportPaths=../../../coverage.out
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
