@@ -5,6 +5,7 @@ import (
 	_ "fiap-tech-challenge-pagamentos/docs"
 	"fiap-tech-challenge-pagamentos/internal/adapters/http/handlers"
 	"fmt"
+	"os"
 
 	"github.com/joomcode/errorx"
 	"github.com/labstack/echo/v4"
@@ -24,8 +25,12 @@ type Server struct {
 
 // NewAPIServer creates the main http with all configurations necessary
 func NewAPIServer(healthHandler *handlers.HealthCheck, pagamentoHandler *handlers.Pagamento) *Server {
-	host := ":3000"
-	appName := "tech-challenge-api"
+	host := os.Getenv("SERVER_PORT")
+	if host == "" {
+		host = ":3000"
+	}
+
+	appName := "tech-challenge-pagamentos"
 	app := echo.New()
 
 	app.HideBanner = true
