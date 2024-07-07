@@ -13,6 +13,7 @@ import (
 	repository2 "fiap-tech-challenge-pagamentos/internal/adapters/repository"
 	"fiap-tech-challenge-pagamentos/internal/core/usecase"
 	"github.com/rhuandantas/fiap-tech-challenge-commons/pkg/db/mysql"
+	"github.com/rhuandantas/fiap-tech-challenge-commons/pkg/messaging"
 	"github.com/rhuandantas/fiap-tech-challenge-commons/pkg/middlewares/auth"
 	"github.com/rhuandantas/fiap-tech-challenge-commons/pkg/util"
 )
@@ -27,7 +28,8 @@ func InitializeWebServer() (*http.Server, error) {
 	validator := util.NewCustomValidator()
 	token := auth.NewJwtToken()
 	pedido := client.NewPedido()
-	producao := client.NewProducao()
+	sqsClient := messaging.NewSqsClient()
+	producao := client.NewProducao(sqsClient)
 	realizarCheckout := usecase.NewRealizaCheckout(pagamentoRepo, pedido, producao)
 	pagamento := handlers.NewPagamento(pesquisaPagamento, validator, token, realizarCheckout)
 	server := http.NewAPIServer(healthCheck, pagamento)

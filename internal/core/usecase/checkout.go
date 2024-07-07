@@ -35,12 +35,14 @@ func (uc *realizaCheckout) Checkout(ctx context.Context, pagamento *domain.Pagam
 		return err
 	}
 
-	err = uc.producaoClient.AdicionaFila(ctx, map[string]string{
-		"pedido_id": pagamento.PedidoId,
-		"status":    "recebido",
-	})
-	if err != nil {
-		return err
+	if pagamento.Status == commons.StatusPagamentoAprovado {
+		err = uc.producaoClient.AdicionaFila(ctx, map[string]string{
+			"pedido_id": pagamento.PedidoId,
+			"status":    commons.StatusPedidoRecebido,
+		})
+		if err != nil {
+			return err
+		}
 	}
 
 	err = uc.pagamentoRepo.Insere(ctx, pagamento)
