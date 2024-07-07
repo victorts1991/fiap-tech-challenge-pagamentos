@@ -35,7 +35,7 @@ func (uc *realizaCheckout) Checkout(ctx context.Context, pagamento *domain.Pagam
 		return err
 	}
 
-	if pagamento.Status == commons.StatusPagamentoAprovado {
+	if pagamento.Status == "aprovado" {
 		err = uc.producaoClient.AdicionaFila(ctx, map[string]string{
 			"pedido_id": pagamento.PedidoId,
 			"status":    commons.StatusPedidoRecebido,
