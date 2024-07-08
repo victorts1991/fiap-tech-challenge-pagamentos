@@ -27,7 +27,7 @@ type Server struct {
 func NewAPIServer(healthHandler *handlers.HealthCheck, pagamentoHandler *handlers.Pagamento) *Server {
 	//host := os.Getenv("SERVER_PORT")
 	//if host == "" {
-		host = ":3000"
+		host := ":3000"
 	//}
 
 	appName := "tech-challenge-pagamentos"
