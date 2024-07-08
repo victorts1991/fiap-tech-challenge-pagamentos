@@ -5,7 +5,6 @@ import (
 	_ "fiap-tech-challenge-pagamentos/docs"
 	"fiap-tech-challenge-pagamentos/internal/adapters/http/handlers"
 	"fmt"
-	"os"
 
 	"github.com/joomcode/errorx"
 	"github.com/labstack/echo/v4"
