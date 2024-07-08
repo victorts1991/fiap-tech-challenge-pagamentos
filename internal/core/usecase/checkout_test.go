@@ -6,6 +6,7 @@ import (
 	"fiap-tech-challenge-pagamentos/internal/core/domain"
 	mock_client "fiap-tech-challenge-pagamentos/test/mock/client"
 	mock_repo "fiap-tech-challenge-pagamentos/test/mock/repository"
+
 	. "github.com/onsi/ginkgo/v2"
 	"github.com/onsi/gomega"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -40,8 +41,8 @@ var _ = Describe("realiza checkout use case testes", func() {
 		}
 		It("faz checkout com sucesso", func() {
 			repo.EXPECT().PesquisaPorPedidoID(ctx, objID.Hex()).Return(nil, nil)
-			pedidoClient.EXPECT().AtualizaStatus(ctx, "pagamento_aprovado", objID.Hex()).Return(nil)
-			producaoClient.EXPECT().AdicionaFila(ctx, gomock.Any()).Return(nil)
+			pedidoClient.EXPECT().AtualizaStatus(gomock.Any(), "pagamento_aprovado", objID.Hex()).Return(nil)
+			producaoClient.EXPECT().AdicionaFila(gomock.Any(), gomock.Any()).Return(nil)
 			repo.EXPECT().Insere(ctx, pagamentoReturn).Return(nil)
 			err := checkoutUC.Checkout(ctx, pagamentoReturn)
 

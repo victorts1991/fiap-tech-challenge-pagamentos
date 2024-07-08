@@ -1,13 +1,11 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/joomcode/errorx"
+	"github.com/rhuandantas/fiap-tech-challenge-commons/pkg/messaging"
 	"log"
-	"net/http"
 	"os"
 )
 
@@ -16,41 +14,32 @@ type Producao interface {
 }
 
 type producaoClient struct {
-	httpClient *http.Client
-	url        string
+	publisher messaging.Client
+	queueUrl  string
 }
 
-func NewProducao() Producao {
-	url := os.Getenv("PRODUCAO_URL")
+func NewProducao(publisher messaging.SqsClient) Producao {
+	url := os.Getenv("PRODUCAO_QUEUE")
 	if url == "" {
-		log.Fatal("PRODUCAO_URL environment variable not set")
+		log.Fatal("PRODUCAO_QUEUE environment variable not set")
 	}
 	return &producaoClient{
-		httpClient: http.DefaultClient,
-		url:        url,
+		publisher: publisher,
+		queueUrl:  url,
 	}
 }
 func (c *producaoClient) AdicionaFila(ctx context.Context, obj map[string]string) error {
 	jsonBody, err := json.Marshal(obj)
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("%s/internal/producao", c.url), bytes.NewBuffer(jsonBody))
 	if err != nil {
-		return errorx.InternalError.New(fmt.Sprintf("não foi possível inicializar producao client %s", err.Error()))
+		return err
 	}
-	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := c.httpClient.Do(req)
+	err = c.publisher.Publish(ctx, c.queueUrl, jsonBody)
 	if err != nil {
-		return errorx.InternalError.New(fmt.Sprintf("producao server retornou error %s", err.Error()))
+		return err
 	}
 
-	if resp == nil {
-		return nil
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		return errorx.InternalError.New(fmt.Sprintf("producao server retornou status %s", resp.Status))
-	}
-	defer resp.Body.Close()
+	fmt.Println("message published successfully")
 
 	return nil
 }

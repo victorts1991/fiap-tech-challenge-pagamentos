@@ -10,6 +10,7 @@ import (
 	"fiap-tech-challenge-pagamentos/internal/adapters/repository"
 	"fiap-tech-challenge-pagamentos/internal/core/usecase"
 	db "github.com/rhuandantas/fiap-tech-challenge-commons/pkg/db/mysql"
+	"github.com/rhuandantas/fiap-tech-challenge-commons/pkg/messaging"
 	"github.com/rhuandantas/fiap-tech-challenge-commons/pkg/middlewares/auth"
 	"github.com/rhuandantas/fiap-tech-challenge-commons/pkg/util"
 
@@ -20,6 +21,7 @@ func InitializeWebServer() (*http.Server, error) {
 	wire.Build(db.NewMySQLConnector,
 		client.NewPedido,
 		client.NewProducao,
+		messaging.NewSqsClient,
 		util.NewCustomValidator,
 		auth.NewJwtToken,
 		repository.NewPagamentoRepo,
