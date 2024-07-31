@@ -1,6 +1,5 @@
 # fiap-tech-challenge-api-pagamentos
 
-
 ### Tech Challenge 5:
 
 1. Faça o login na plataforma da AWS;
